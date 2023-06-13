@@ -2,13 +2,14 @@ import { Router } from "express";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc, updateDoc } from "firebase/firestore/lite";
 import express from "express";
-
+import cors from "cors"
 
 const app = express();
 const router = Router();
 app.listen(3000, () => console.log("server is running on port 3000"))
 // Middleware para processar o corpo das solicitações
 app.use(express.json());
+app.use(cors())
 app.use(router)
 
 const firebaseConfig = {
@@ -44,8 +45,8 @@ app.put('/users:id', async (req, res) => {
     const newUserRef = await updateDoc(collection(db, 'users'), user);
     res.json({ id: newUserRef.id, ...user });
   } catch (error) {
-    console.error('Erro ao criar usuário: ', error);
-    res.status(500).json({ error: 'Ocorreu um erro ao criar usuário' });
+    console.error('Erro ao atualizar usuário: ', error);
+    res.status(500).json({ error: 'Ocorreu um erro ao atualizar usuário' });
   }
 });
 
