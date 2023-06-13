@@ -1,5 +1,10 @@
 {
   "dependencies": {
+    "express": "^4.18.2",
     "firebase": "^9.22.1"
+  },
+  "type": "module",
+  "script": {
+    "start": "node --watch server.js"
   }
 }
