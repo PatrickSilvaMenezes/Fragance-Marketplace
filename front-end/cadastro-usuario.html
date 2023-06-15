@@ -82,11 +82,13 @@
         const email = document.getElementById('email').value;
         const lastname = document.getElementById('lastname').value;
         const phoneNumber = document.getElementById('phone-number').value;
+        const password = document.getElementById('password').value;
         const data = {
             name: name,
             email: email,
             lastname: lastname,
-            phoneNumber: phoneNumber
+            phoneNumber: phoneNumber,
+            password: password
         }
         // Enviar uma solicitação POST para o servidor para criar um novo usuário
        axios.post('http://localhost:3000/users', data)
