@@ -3,6 +3,7 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc, updateDoc } from "firebase/firestore/lite";
 import express from "express";
 import cors from "cors"
+import bcrypt from "bcrypt";
 
 const app = express();
 const router = Router();
@@ -30,6 +31,13 @@ const db = getFirestore(appFirebase);
 app.post('/users', async (req, res) => {
   try {
     const user = req.body;
+    if (!user.password) {
+      return res.status(400).json({ error: 'A senha é obrigatória' });
+    }
+
+    const hashedPassword = await bcrypt.hash(user.password, 10);
+
+    user.password = hashedPassword;
     const newUserRef = await addDoc(collection(db, 'users'), user);
     res.json({ id: newUserRef.id, ...user });
   } catch (error) {
