@@ -1,11 +1,26 @@
 import { Router } from "express";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc, updateDoc } from "firebase/firestore/lite";
+import { getStorage, ref, uploadBytes, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import express from "express";
+import multer from "multer"
 import cors from "cors"
 
 const app = express();
 const router = Router();
+// Configurar o armazenamento do multer
+const storageMulter = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'product-images/'); // Pasta onde os arquivos serão armazenados
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname); // Nome original do arquivo
+  }
+});
+
+// Inicializar o middleware do multer
+const upload = multer({ storage: storageMulter });
+
 app.listen(3000, () => console.log("server is running on port 3000"))
 // Middleware para processar o corpo das solicitações
 app.use(express.json());
@@ -25,6 +40,7 @@ const firebaseConfig = {
 // Inicialize o Firebase Client SDK
 const appFirebase = initializeApp(firebaseConfig);
 const db = getFirestore(appFirebase);
+const storage = getStorage(appFirebase);
 
 // Rota para criar um novo usuário
 app.post('/users', async (req, res) => {
@@ -47,6 +63,26 @@ app.put('/users:id', async (req, res) => {
   } catch (error) {
     console.error('Erro ao atualizar usuário: ', error);
     res.status(500).json({ error: 'Ocorreu um erro ao atualizar usuário' });
+  }
+});
+
+
+app.post('/products', upload.single('product-image'), async (req, res) => {
+  try {
+    const product = req.body;
+
+    // Salvar a imagem no Firebase Storage
+    const storageRef = ref(storage, `images/${req.imageFile.originalname}`);
+    await uploadBytes(storageRef, imageFile.buffer);
+    const imageUrl = await getDownloadURL(storageRef);
+
+    product.imageFile = imageUrl;
+
+    const newProductRef = await addDoc(collection(db, 'products'), product);
+    res.json({ id: newProductRef.id, ...product });
+  } catch (error) {
+    console.error('Erro ao criar produto: ', error);
+    res.status(500).json({ error: 'Ocorreu um erro ao criar o produto' });
   }
 });
 
