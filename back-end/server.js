@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, updateDoc } from "firebase/firestore/lite";
+import { getFirestore, collection, addDoc, updateDoc, doc, deleteDoc } from "firebase/firestore/lite";
 import express from "express";
 import multer from "multer"
 import cors from "cors"
@@ -61,6 +61,18 @@ app.post('/users', async (req, res) => {
   }
 });
 
+app.delete('/users/:id', async (req, res) => {
+  try {
+    const userId = req.params.id;
+    await deleteDoc(doc(db, 'users', id));
+    res.json({ id: userId });
+  } catch (error) {
+    console.error('Erro ao deletar usuário: ', error);
+    res.status(500).json({ error: 'Ocorreu um erro ao deletar o usuário' });
+  }
+})
+
+
 // Rota para atualizar um usuário
 app.put('/users:id', async (req, res) => {
   try {
@@ -84,6 +96,18 @@ app.post('/products', upload.single('product-image'), async (req, res) => {
     res.status(500).json({ error: 'Ocorreu um erro ao criar o produto' });
   }
 });
+
+app.delete('/products/:id', async (req, res) => {
+  try {
+    const productId = req.params.id;
+    await deleteDoc(doc(db, 'products', id));
+    res.json({ id: productId });
+  } catch (error) {
+    console.error('Erro ao deletar produto: ', error);
+    res.status(500).json({ error: 'Ocorreu um erro ao deletar o produto' });
+  }
+})
+
 
 
 
