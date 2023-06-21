@@ -74,11 +74,12 @@ app.delete('/users/:id', async (req, res) => {
 
 
 // Rota para atualizar um usuário
-app.put('/users:id', async (req, res) => {
+app.put('/users/:id', async (req, res) => {
   try {
-    const user = req.body;
-    const newUserRef = await updateDoc(collection(db, 'users'), user);
-    res.json({ id: newUserRef.id, ...user });
+    const userId = req.params.id;
+    const userUpdated = req.body;
+    await updateDoc(doc(db, 'users', userId), userUpdated);
+    res.json({ id: userId, ...userUpdated });
   } catch (error) {
     console.error('Erro ao atualizar usuário: ', error);
     res.status(500).json({ error: 'Ocorreu um erro ao atualizar usuário' });
@@ -100,7 +101,7 @@ app.post('/products', upload.single('product-image'), async (req, res) => {
 app.delete('/products/:id', async (req, res) => {
   try {
     const productId = req.params.id;
-    await deleteDoc(doc(db, 'products', id));
+    await deleteDoc(doc(db, 'products', productId));
     res.json({ id: productId });
   } catch (error) {
     console.error('Erro ao deletar produto: ', error);
@@ -108,7 +109,17 @@ app.delete('/products/:id', async (req, res) => {
   }
 })
 
-
+app.put('/products/:id', async (req, res) => {
+  try {
+    const productId = req.params.id;
+    const productUpdated = req.body;
+    await updateDoc(doc(db, 'products', productId), productUpdated);
+    res.json({ id: productId, ...productUpdated });
+  } catch (error) {
+    console.error('Erro ao atualizar produto: ', error);
+    res.status(500).json({ error: 'Ocorreu um erro ao atualizar produto' });
+  }
+})
 
 
 
