@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, updateDoc, doc, deleteDoc } from "firebase/firestore/lite";
+import { getFirestore, collection, addDoc, updateDoc, doc, deleteDoc, setDoc } from "firebase/firestore/lite";
 import express from "express";
 import multer from "multer"
 import cors from "cors"
@@ -46,6 +46,9 @@ const db = getFirestore(appFirebase);
 app.post('/users', async (req, res) => {
   try {
     const user = req.body;
+    const docId = user.email;
+    const collectionRef = collection(db, 'users');
+    const docRef = doc(collectionRef, docId);
     if (!user.password) {
       return res.status(400).json({ error: 'A senha é obrigatória' });
     }
@@ -53,8 +56,8 @@ app.post('/users', async (req, res) => {
     const hashedPassword = await bcrypt.hash(user.password, 10);
 
     user.password = hashedPassword;
-    const newUserRef = await addDoc(collection(db, 'users'), user);
-    res.json({ id: newUserRef.id, ...user });
+    await setDoc(docRef, user);
+    res.json({ id: docId, ...user });
   } catch (error) {
     console.error('Erro ao criar usuário: ', error);
     res.status(500).json({ error: 'Ocorreu um erro ao criar usuário' });
