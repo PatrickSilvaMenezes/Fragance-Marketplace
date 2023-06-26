@@ -1,6 +1,6 @@
-import { Router } from "express";
+import { query, Router } from "express";
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, updateDoc, doc, deleteDoc, setDoc } from "firebase/firestore/lite";
+import { getFirestore, collection, addDoc, updateDoc, doc, deleteDoc, setDoc, getDoc } from "firebase/firestore/lite";
 import express from "express";
 import multer from "multer"
 import cors from "cors"
@@ -150,6 +150,35 @@ app.post('/login', async (req, res) => {
     res.status(500).send('Erro ao listar itens.');
   }
 });
+
+app.post('/login2', async (req,res)=>{
+  try{
+    const docRef = doc(db, 'users', req.body.email)
+    const querySnapshot = await getDoc(docRef);
+    console.log(querySnapshot.data())
+    if(querySnapshot.data() !== undefined){
+      bcrypt.compare(req.body.password, querySnapshot.data().password, (err, result)=>{
+        if(err){
+          console.log("erro")
+          return
+        }
+
+        if(result){
+          console.log("senhas batem")
+          res.json("sucesso")
+        }else{
+          console.log("senhas não batem")
+          res.json("erro")
+        }
+      })
+    }else{
+      res.json("erro")
+    }
+  }catch(error){
+    console.log(error)
+    res.json("erro")
+  }
+})
 
 
 app.get('/users', async (req, res) => {
