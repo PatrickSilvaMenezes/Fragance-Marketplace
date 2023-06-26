@@ -1,11 +1,26 @@
 import { Router } from "express";
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, updateDoc } from "firebase/firestore/lite";
+import { getFirestore, collection, addDoc, updateDoc, doc, deleteDoc, setDoc } from "firebase/firestore/lite";
 import express from "express";
+import multer from "multer"
 import cors from "cors"
+import bcrypt from "bcrypt";
 
 const app = express();
 const router = Router();
+// Configurar o armazenamento do multer
+const storageMulter = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, '../front-end/images'); // Pasta onde os arquivos serão armazenados
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname); // Nome original do arquivo
+  }
+});
+
+// Inicializar o middleware do multer
+const upload = multer({ storage: storageMulter });
+
 app.listen(3000, () => console.log("server is running on port 3000"))
 // Middleware para processar o corpo das solicitações
 app.use(express.json());
@@ -26,30 +41,131 @@ const firebaseConfig = {
 const appFirebase = initializeApp(firebaseConfig);
 const db = getFirestore(appFirebase);
 
+
 // Rota para criar um novo usuário
 app.post('/users', async (req, res) => {
   try {
     const user = req.body;
-    const newUserRef = await addDoc(collection(db, 'users'), user);
-    res.json({ id: newUserRef.id, ...user });
+    const docId = user.email;
+    const collectionRef = collection(db, 'users');
+    const docRef = doc(collectionRef, docId);
+    if (!user.password) {
+      return res.status(400).json({ error: 'A senha é obrigatória' });
+    }
+
+    const hashedPassword = await bcrypt.hash(user.password, 10);
+
+    user.password = hashedPassword;
+    await setDoc(docRef, user);
+    res.json({ id: docId, ...user });
   } catch (error) {
     console.error('Erro ao criar usuário: ', error);
     res.status(500).json({ error: 'Ocorreu um erro ao criar usuário' });
   }
 });
 
-// Rota para atualizar um usuário
-app.put('/users:id', async (req, res) => {
+app.delete('/users/:id', async (req, res) => {
   try {
-    const user = req.body;
-    const newUserRef = await updateDoc(collection(db, 'users'), user);
-    res.json({ id: newUserRef.id, ...user });
+    const userId = req.params.id;
+    await deleteDoc(doc(db, 'users', id));
+    res.json({ id: userId });
+  } catch (error) {
+    console.error('Erro ao deletar usuário: ', error);
+    res.status(500).json({ error: 'Ocorreu um erro ao deletar o usuário' });
+  }
+})
+
+
+// Rota para atualizar um usuário
+app.put('/users/:id', async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const userUpdated = req.body;
+    await updateDoc(doc(db, 'users', userId), userUpdated);
+    res.json({ id: userId, ...userUpdated });
   } catch (error) {
     console.error('Erro ao atualizar usuário: ', error);
     res.status(500).json({ error: 'Ocorreu um erro ao atualizar usuário' });
   }
 });
 
+
+app.post('/products', upload.single('product-image'), async (req, res) => {
+  try {
+    const product = req.body;
+    const newProductRef = await addDoc(collection(db, 'products'), product);
+    res.json({ id: newProductRef.id, ...product });
+  } catch (error) {
+    console.error('Erro ao criar produto: ', error);
+    res.status(500).json({ error: 'Ocorreu um erro ao criar o produto' });
+  }
+});
+
+app.delete('/products/:id', async (req, res) => {
+  try {
+    const productId = req.params.id;
+    await deleteDoc(doc(db, 'products', productId));
+    res.json({ id: productId });
+  } catch (error) {
+    console.error('Erro ao deletar produto: ', error);
+    res.status(500).json({ error: 'Ocorreu um erro ao deletar o produto' });
+  }
+})
+
+app.put('/products/:id', async (req, res) => {
+  try {
+    const productId = req.params.id;
+    const productUpdated = req.body;
+    await updateDoc(doc(db, 'products', productId), productUpdated);
+    res.json({ id: productId, ...productUpdated });
+  } catch (error) {
+    console.error('Erro ao atualizar produto: ', error);
+    res.status(500).json({ error: 'Ocorreu um erro ao atualizar produto' });
+  }
+})
+
+
+// Rota para login
+app.post('/login', async (req, res) => {
+
+  console.log(req.body);
+  
+  try {
+    var dataFront = []
+    const querySnapshot = await getDocs(collection(db, 'users'))
+    querySnapshot.forEach((doc)=>{
+      console.log(doc.data());
+      dataFront.push(doc.data());
+    })
+
+    dataFront.forEach(async (i)=>{
+      if(i.email == req.body.email && await bcrypt.compare(req.body.password, i.password)){
+        
+      }
+    })
+    res.json(true)
+  } catch (error) {
+    res.json(false)
+    console.log(error);
+    res.status(500).send('Erro ao listar itens.');
+  }
+});
+
+
+app.get('/users', async (req, res) => {
+  try {
+    var dataFront = []
+    const querySnapshot = await getDocs(collection(db, 'users'))
+    querySnapshot.forEach((doc)=>{
+      console.log(doc.data());
+      dataFront.push(doc.data());
+    })
+    res.json(dataFront);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Erro ao listar itens.');
+  }
+});
 
 
 
