@@ -126,32 +126,7 @@ app.put('/products/:id', async (req, res) => {
 
 
 // Rota para login
-app.post('/login', async (req, res) => {
-
-  console.log(req.body);
-  
-  try {
-    var dataFront = []
-    const querySnapshot = await getDocs(collection(db, 'users'))
-    querySnapshot.forEach((doc)=>{
-      console.log(doc.data());
-      dataFront.push(doc.data());
-    })
-
-    dataFront.forEach(async (i)=>{
-      if(i.email == req.body.email && await bcrypt.compare(req.body.password, i.password)){
-        
-      }
-    })
-    res.json(true)
-  } catch (error) {
-    res.json(false)
-    console.log(error);
-    res.status(500).send('Erro ao listar itens.');
-  }
-});
-
-app.post('/login2', async (req,res)=>{
+app.post('/login', async (req,res)=>{
   try{
     const docRef = doc(db, 'users', req.body.email)
     const querySnapshot = await getDoc(docRef);
@@ -162,10 +137,15 @@ app.post('/login2', async (req,res)=>{
           console.log("erro")
           return
         }
-
         if(result){
           console.log("senhas batem")
-          res.json("sucesso")
+          //verifica se é admin
+          if(querySnapshot.data().admin === true){
+            res.json("sucesso-admin")
+          }else{
+            res.json("sucesso-user")
+          }
+          
         }else{
           console.log("senhas não batem")
           res.json("erro")

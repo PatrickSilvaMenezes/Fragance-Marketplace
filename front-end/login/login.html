@@ -61,12 +61,13 @@
             }
 
 
-            axios.post('http://localhost:3000/login2', data).then((response)=>{
+            axios.post('http://localhost:3000/login', data).then((response)=>{
                 console.log(response);
-                if(response.data == "sucesso"){
+                if(response.data == "sucesso-admin"){
+                    window.location.href = "../admin-profile/admin-profile.html";
+                }else if(response.data == "sucesso-user"){
                     window.location.href = "../homepage/homepage.html";
-                }
-                
+                }   
             }).catch((error)=>{
                 console.log(error);
             })
