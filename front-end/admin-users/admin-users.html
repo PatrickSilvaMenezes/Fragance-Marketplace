@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>Gerenciar usuários</title>
+</head>
+
+
+<body>
+    
+    <div id="users">
+
+    </div>
+   
+</body>
+
+
+<script>
+
+    const divUsers = document.getElementById("users")
+    var users = []
+
+    axios.get('http://localhost:3000/users').then((response)=>{
+        console.log(response)
+        users = response.data
+        
+        console.log(users)
+        users.forEach((i)=>{
+            divUsers.innerHTML += i.name
+        })
+
+
+
+    }).catch((error)=>{
+        console.log(error)
+    })
+
+    console.log(users)
+
+    
+</script>
+</html>

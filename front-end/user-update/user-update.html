@@ -88,8 +88,8 @@
             lastname: lastname,
             phoneNumber: phoneNumber
         }
-        // Enviar uma solicitação POST para o servidor para criar um novo usuário
-       axios.post('http://localhost:3000/users', data)
+        // Enviar uma solicitação PUT para atualizar
+       axios.put(`http://localhost:3000/users/${email}`, data)
         .then(function (response) {
                // Manipula a resposta do servidor, se necessário
                console.log(response);

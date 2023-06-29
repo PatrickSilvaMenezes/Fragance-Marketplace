@@ -1,6 +1,6 @@
 import { query, Router } from "express";
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, addDoc, updateDoc, doc, deleteDoc, setDoc, getDoc } from "firebase/firestore/lite";
+import { getFirestore, collection, addDoc, updateDoc, doc, deleteDoc, setDoc, getDoc, getDocs } from "firebase/firestore/lite";
 import express from "express";
 import multer from "multer"
 import cors from "cors"
@@ -163,7 +163,7 @@ app.post('/login', async (req,res)=>{
 
 app.get('/users', async (req, res) => {
   try {
-    var dataFront = []
+    var dataFront = [] //dados para o front-end
     const querySnapshot = await getDocs(collection(db, 'users'))
     querySnapshot.forEach((doc)=>{
       console.log(doc.data());
