@@ -64,6 +64,34 @@ app.post('/users', async (req, res) => {
   }
 });
 
+app.post('/products', upload.single('product-image'), async (req, res) => {
+  try {
+    const product = req.body;
+    const docId = req.body.name
+    const collectionRef = collection(db, 'products')
+    const docRef = doc(collectionRef, docId)
+    await setDoc(docRef, product)
+    res.json(product);
+  } catch (error) {
+    console.error('Erro ao criar produto: ', error);
+    res.status(500).json({ error: 'Ocorreu um erro ao criar o produto' });
+  }
+});
+
+app.post('/category', async (req,res)=>{
+  try{
+    console.log(req.body)
+    const name = req.body
+    const docId = req.body.name
+    const collectionRef = collection(db, 'categories')
+    const docRef = doc(collectionRef, docId)
+    await setDoc(docRef, name)
+    res.json({})
+  }catch(error){
+    console.log(error)
+  }
+})
+
 app.delete('/users/:id', async (req, res) => {
   console.log(req.params)
   try {
@@ -91,16 +119,9 @@ app.put('/users/:id', async (req, res) => {
 });
 
 
-app.post('/products', upload.single('product-image'), async (req, res) => {
-  try {
-    const product = req.body;
-    const newProductRef = await addDoc(collection(db, 'products'), product);
-    res.json({ id: newProductRef.id, ...product });
-  } catch (error) {
-    console.error('Erro ao criar produto: ', error);
-    res.status(500).json({ error: 'Ocorreu um erro ao criar o produto' });
-  }
-});
+
+
+
 
 app.delete('/products/:id', async (req, res) => {
   try {
@@ -177,6 +198,21 @@ app.get('/users', async (req, res) => {
   }
 });
 
+app.get('/categories', async (req,res)=>{
+  try{
+    var dataFront = [] //dados para o front-end
+    const querySnapshot = await getDocs(collection(db, 'categories'))
+    querySnapshot.forEach((doc)=>{
+      console.log(doc.data());
+      dataFront.push(doc.data());
+    })
+    res.json(dataFront);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Erro ao listar itens.');
+  }
+})
+
 app.get('/products', async (req,res)=>{
   try{
     var dataFront = [] //dados para o front-end
@@ -190,6 +226,8 @@ app.get('/products', async (req,res)=>{
     console.log(error)
   }
 })
+
+
 
 
 
