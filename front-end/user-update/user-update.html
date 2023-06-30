@@ -37,7 +37,7 @@
             <div class="sm:col-span-2">
             <label for="email" class="block text-sm font-semibold leading-6 text-gray-900">Email</label>
             <div class="mt-2.5">
-                <input type="email" name="email" id="email" autocomplete="email" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                <input readonly type="email" name="email" id="email" autocomplete="email" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
             </div>
             </div>
             <div class="sm:col-span-2">
@@ -70,6 +70,10 @@
         </form>
     </div>
   <script>
+    var emailStorage = localStorage.getItem("email")
+    var emailInput = document.getElementById("email")
+    email.value = emailStorage
+
     // Referenciar o formulário HTML
     const form = document.getElementById('signup-form');
 
@@ -94,10 +98,10 @@
                // Manipula a resposta do servidor, se necessário
                console.log(response);
            })
-           .catch(function (error) {
-               // Manipula o erro, se ocorrer algum
-               console.error(error);
-           });
+        .catch(function (error) {
+            // Manipula o erro, se ocorrer algum
+            console.error(error);
+        });
     });
 </script>
     

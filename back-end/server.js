@@ -65,9 +65,10 @@ app.post('/users', async (req, res) => {
 });
 
 app.delete('/users/:id', async (req, res) => {
+  console.log(req.params)
   try {
     const userId = req.params.id;
-    await deleteDoc(doc(db, 'users', id));
+    await deleteDoc(doc(db, 'users', userId));
     res.json({ id: userId });
   } catch (error) {
     console.error('Erro ao deletar usuário: ', error);

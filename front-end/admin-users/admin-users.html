@@ -13,7 +13,6 @@
 <body>
     
     <div id="users">
-
     </div>
    
 </body>
@@ -24,16 +23,22 @@
     const divUsers = document.getElementById("users")
     var users = []
 
+   
+    var URLedit = "../user-update/user-update.html"
+
+
     axios.get('http://localhost:3000/users').then((response)=>{
         console.log(response)
         users = response.data
         
         console.log(users)
         users.forEach((i)=>{
-            divUsers.innerHTML += i.name
+            console.log(i.email)
+             
+            divUsers.innerHTML += i.name + 
+            '<button onClick="editUser(\'' + i.email + '\')">Editar</button> <button onClick="removeUser(\'' + i.email + '\')">Remover</button> <br>';
+
         })
-
-
 
     }).catch((error)=>{
         console.log(error)
@@ -41,6 +46,20 @@
 
     console.log(users)
 
-    
+    function editUser(email){
+        console.log(email)
+        localStorage.setItem("email", email)
+        window.location.href = URLedit
+    }
+
+    function removeUser(email){
+        console.log(email)
+        axios.delete(`http://localhost:3000/users/${email}`).then((response)=>{
+            console.log(response)
+        }).catch((error)=>{
+            console.log(error)
+        })
+    }
+
 </script>
 </html>
