@@ -29,7 +29,7 @@
           <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
             <div class="flex flex-shrink-0 items-center">
               <img class="block h-8 w-auto lg:hidden" src="../assets/logo.png" alt="Your Company">
-              <img class="hidden h-8 w-auto lg:block" src="../assets/logo.png" alt="Your Company">
+              <img class="hidden h-8 w-auto lg:block" src="../assets/FW-LOGO2.png" alt="Your Company">
             </div>
             <div class="hidden sm:ml-6 sm:block">
               <div class="flex space-x-4">
@@ -79,7 +79,7 @@
             <figcaption class="mt-10">
               <img class="mx-auto h-10 w-10 rounded-full" src="../assets/perfil.png" alt="">
               <div class="mt-4 flex items-center justify-center space-x-3 text-base">
-                <div class="font-semibold text-gray-900">Nome Usuário</div>
+                <div id = "userprofile-name"class="font-semibold text-gray-900"></div>
                 
               </div>
             </figcaption>
@@ -91,6 +91,13 @@
         
 
       </section>
+
+      <script>
+        var userName = localStorage.getItem("nameLogin")
+        var divUserName = document.getElementById("userprofile-name")
+        divUserName.innerHTML += userName
+
+      </script>
       
       
 </body>

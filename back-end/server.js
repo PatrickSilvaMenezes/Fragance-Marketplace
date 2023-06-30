@@ -142,9 +142,9 @@ app.post('/login', async (req,res)=>{
           console.log("senhas batem")
           //verifica se é admin
           if(querySnapshot.data().admin === true){
-            res.json("sucesso-admin")
+            res.json(querySnapshot.data())
           }else{
-            res.json("sucesso-user")
+            res.json(querySnapshot.data())
           }
           
         }else{
@@ -176,6 +176,20 @@ app.get('/users', async (req, res) => {
     res.status(500).send('Erro ao listar itens.');
   }
 });
+
+app.get('/products', async (req,res)=>{
+  try{
+    var dataFront = [] //dados para o front-end
+    const querySnapshot = await getDocs(collection(db, 'products'))
+    querySnapshot.forEach((doc)=>{
+      console.log(doc.data())
+      dataFront.push(doc.data())
+    })
+    res.json(dataFront)
+  }catch(error){
+    console.log(error)
+  }
+})
 
 
 

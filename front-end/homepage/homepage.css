@@ -2,4 +2,73 @@
     font-family: Poppins, sans-serif;
     margin: 20px;
     text-align: justify;
+
+}
+
+.homepage-products-buttons{
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+}
+
+.homepage-products-sortprice{
+    margin: 20px;
+    border: 1px;
+    border-radius: 10px;
+    border-color: black;
+    border-style: solid;
+    padding: 10px;
+}
+
+.homepage-products-sortprice:hover{
+    color: white;
+    background-color: black;
+}
+
+.homepage-products-sortname{
+    margin: 20px;
+    border: 1px;
+    border-radius: 10px;
+    border-color: black;
+    border-style: solid;
+    padding: 10px;
+}
+
+.homepage-products-sortname:hover{
+    color: white;
+    background-color: black;
+}
+
+.homepage-products-title{
+    font-weight: bold;
+    display: flex;
+    margin: 0 auto;
+    text-align: center;
+    justify-content: center;
+}
+
+#homepage-products-names{
+    
+}
+
+.homepage-buy{
+    margin: 20px;
+    border: 1px;
+    border-radius: 10px;
+    border-color: black;
+    border-style: solid;
+    padding: 10px;
+}
+
+.homepage-buy:hover{
+    color: white;
+    background-color: black;
+}
+
+.homepage-item{
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
 }

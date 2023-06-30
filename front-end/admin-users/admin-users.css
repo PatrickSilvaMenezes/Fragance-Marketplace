@@ -1,0 +1,38 @@
+.adminusers-edit{
+    margin: 20px;
+    border: 1px;
+    border-radius: 10px;
+    border-color: black;
+    border-style: solid;
+    padding: 10px;
+}
+
+.adminusers-edit:hover{
+    color: white;
+    background-color: black;
+}
+
+.adminusers-remove{
+    margin: 20px;
+    border: 1px;
+    border-radius: 10px;
+    border-color: black;
+    border-style: solid;
+    padding: 10px;
+}
+
+.adminusers-remove:hover{
+    color: white;
+    background-color: black;
+}
+
+#users{
+    font-family: Poppins, sans-serif;
+}
+
+.adminusers-item{
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+}
