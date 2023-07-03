@@ -1,6 +1,10 @@
-import { Router } from "express";
+import { query, Router } from "express";
 import { initializeApp } from "firebase/app";
+<<<<<<< HEAD
 import { getFirestore, collection, addDoc, updateDoc, doc, deleteDoc, setDoc } from "firebase/firestore/lite";
+=======
+import { getFirestore, collection, addDoc, updateDoc, doc, deleteDoc, setDoc, getDoc, getDocs } from "firebase/firestore/lite";
+>>>>>>> wallace
 import express from "express";
 import multer from "multer"
 import cors from "cors"
@@ -64,10 +68,39 @@ app.post('/users', async (req, res) => {
   }
 });
 
+app.post('/products', upload.single('product-image'), async (req, res) => {
+  try {
+    const product = req.body;
+    const docId = req.body.name
+    const collectionRef = collection(db, 'products')
+    const docRef = doc(collectionRef, docId)
+    await setDoc(docRef, product)
+    res.json(product);
+  } catch (error) {
+    console.error('Erro ao criar produto: ', error);
+    res.status(500).json({ error: 'Ocorreu um erro ao criar o produto' });
+  }
+});
+
+app.post('/category', async (req,res)=>{
+  try{
+    console.log(req.body)
+    const name = req.body
+    const docId = req.body.name
+    const collectionRef = collection(db, 'categories')
+    const docRef = doc(collectionRef, docId)
+    await setDoc(docRef, name)
+    res.json({})
+  }catch(error){
+    console.log(error)
+  }
+})
+
 app.delete('/users/:id', async (req, res) => {
+  console.log(req.params)
   try {
     const userId = req.params.id;
-    await deleteDoc(doc(db, 'users', id));
+    await deleteDoc(doc(db, 'users', userId));
     res.json({ id: userId });
   } catch (error) {
     console.error('Erro ao deletar usuário: ', error);
@@ -123,6 +156,116 @@ app.put('/products/:id', async (req, res) => {
     res.status(500).json({ error: 'Ocorreu um erro ao atualizar produto' });
   }
 })
+
+
+
+
+
+app.delete('/products/:id', async (req, res) => {
+  try {
+    const productId = req.params.id;
+    await deleteDoc(doc(db, 'products', productId));
+    res.json({ id: productId });
+  } catch (error) {
+    console.error('Erro ao deletar produto: ', error);
+    res.status(500).json({ error: 'Ocorreu um erro ao deletar o produto' });
+  }
+})
+
+app.put('/products/:id', async (req, res) => {
+  try {
+    const productId = req.params.id;
+    const productUpdated = req.body;
+    await updateDoc(doc(db, 'products', productId), productUpdated);
+    res.json({ id: productId, ...productUpdated });
+  } catch (error) {
+    console.error('Erro ao atualizar produto: ', error);
+    res.status(500).json({ error: 'Ocorreu um erro ao atualizar produto' });
+  }
+})
+
+
+// Rota para login
+app.post('/login', async (req,res)=>{
+  try{
+    const docRef = doc(db, 'users', req.body.email)
+    const querySnapshot = await getDoc(docRef);
+    console.log(querySnapshot.data())
+    if(querySnapshot.data() !== undefined){
+      bcrypt.compare(req.body.password, querySnapshot.data().password, (err, result)=>{
+        if(err){
+          console.log("erro")
+          return
+        }
+        if(result){
+          console.log("senhas batem")
+          //verifica se é admin
+          if(querySnapshot.data().admin === true){
+            res.json(querySnapshot.data())
+          }else{
+            res.json(querySnapshot.data())
+          }
+          
+        }else{
+          console.log("senhas não batem")
+          res.json("erro")
+        }
+      })
+    }else{
+      res.json("erro")
+    }
+  }catch(error){
+    console.log(error)
+    res.json("erro")
+  }
+})
+
+
+app.get('/users', async (req, res) => {
+  try {
+    var dataFront = [] //dados para o front-end
+    const querySnapshot = await getDocs(collection(db, 'users'))
+    querySnapshot.forEach((doc)=>{
+      console.log(doc.data());
+      dataFront.push(doc.data());
+    })
+    res.json(dataFront);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Erro ao listar itens.');
+  }
+});
+
+app.get('/categories', async (req,res)=>{
+  try{
+    var dataFront = [] //dados para o front-end
+    const querySnapshot = await getDocs(collection(db, 'categories'))
+    querySnapshot.forEach((doc)=>{
+      console.log(doc.data());
+      dataFront.push(doc.data());
+    })
+    res.json(dataFront);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Erro ao listar itens.');
+  }
+})
+
+app.get('/products', async (req,res)=>{
+  try{
+    var dataFront = [] //dados para o front-end
+    const querySnapshot = await getDocs(collection(db, 'products'))
+    querySnapshot.forEach((doc)=>{
+      console.log(doc.data())
+      dataFront.push(doc.data())
+    })
+    res.json(dataFront)
+  }catch(error){
+    console.log(error)
+  }
+})
+
+
 
 
 

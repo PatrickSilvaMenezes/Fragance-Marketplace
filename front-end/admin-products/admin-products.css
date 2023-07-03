@@ -1,0 +1,58 @@
+.adminproducts-register{
+    margin: 0 auto;
+    margin-top: 20px;
+    border: 1px;
+    border-radius: 10px;
+    border-color: black;
+    border-style: solid;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    font-family: Poppins, sans-serif;
+}
+
+.adminproducts-register:hover{
+    background-color: black;
+    color: white;
+}
+
+#adminproducts-itens{
+    font-family: Poppins, sans-serif;
+}
+
+.adminusers-edit{
+    margin: 20px;
+    border: 1px;
+    border-radius: 10px;
+    border-color: black;
+    border-style: solid;
+    padding: 10px;
+}
+
+.adminusers-edit:hover{
+    background-color: black;
+    color: white;
+}
+
+.adminusers-remove{
+    margin: 20px;
+    border: 1px;
+    border-radius: 10px;
+    border-color: black;
+    border-style: solid;
+    padding: 10px;
+}
+
+.adminusers-remove:hover{
+    background-color: black;
+    color: white;
+}
+
+.adminproducts-item{
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+}
+
