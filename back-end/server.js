@@ -187,7 +187,8 @@ app.put('/products/buy/:id', async (req, res) => {
     const querySnapshot = await getDocs(collection(db, 'products'))
     querySnapshot.forEach((doc) => {
       if (doc.id === productId) {
-        productUpdated.quantity = JSON.stringify(doc.data().quantity + productUpdated.quantity)
+        productUpdated.quantity = JSON.stringify(parseInt(doc.data().quantity) + parseInt(productUpdated.quantity))
+        console.log(productUpdated.quantity)
       }
     })
     await updateDoc(doc(db, 'products', productId), productUpdated);

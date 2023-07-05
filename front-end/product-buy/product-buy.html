@@ -142,7 +142,7 @@
     var priceBuyStorage = JSON.parse(localStorage.getItem('productPriceBuy'));
     var priceDiv = document.getElementById('priceBuy');
     priceDiv.value = priceBuyStorage;
-
+     form = document.getElementById('product-form');
     form.addEventListener("submit", (event) => {
       event.preventDefault();
 
@@ -150,6 +150,7 @@
       const priceBuy = document.getElementById("priceBuy").value;
       const quantity = document.getElementById("quantity").value;
     
+      
       const data = {
         name,
         priceBuy,
