@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./product-update.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Editar Produto</title>
 </head>
 <body>
@@ -178,8 +179,20 @@
 
         axios.put('http://localhost:3000/products', data).then((response)=>{
             console.log(response)
+            Swal.fire({
+              title: 'Tudo certo!',
+              text: 'Produto atualizado com sucesso!',
+              icon: 'success',
+              confirmButtonText: 'Ok'
+          })
         }).catch((error)=>{
             console.log(error)
+            Swal.fire({
+              title: 'Erro!',
+              text: 'Não foi possível atualizar o produto',
+              icon: 'error',
+              confirmButtonText: 'Ok'
+          })
         })
     })
 

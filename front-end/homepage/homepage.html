@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
     <link href="./homepage.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Página Inicial</title>
   </head>
@@ -104,7 +105,7 @@
       nomeUserDiv.innerHTML += nomeUser + ', '
 
 
-      function sortByPrice(){
+      function sortByName(){
         productsDiv.innerHTML = ''
         var productsNames = []
         var products = []
@@ -113,7 +114,7 @@
           console.log(response)
           products = response.data
           products.forEach((i)=>{
-            productsNames.push({'name': i.name, 'price': i.priceSell})
+            productsNames.push({'name': i.name, 'price': i.priceSell, 'category': i.category})
           })
           console.log(productsNames)
           productsNames.sort(function(a,b){
@@ -129,7 +130,7 @@
           })
           console.log(productsNames)
           productsNames.forEach((i)=>{
-            productsDiv.innerHTML+= '<div class="homepage-item">'+ i.name + ' ' + i.price + 'R$ <button onclick="buyProduct(\'' + i.name + '\')" class="homepage-buy">Comprar</button> <br> </div>'
+            productsDiv.innerHTML+= '<div class="homepage-item">' + '<h3 id="category">' + i.category + '</h3>'+ ' . ' + i.name + ' ' + i.price + 'R$ <button onclick="buyProduct(\'' + i.name + '\')" class="homepage-buy">Comprar</button> <br> </div>'
           })
 
         }).then((error)=>{
@@ -137,7 +138,7 @@
         })
       }
 
-      function sortByName(){
+      function sortByPrice(){
         productsDiv.innerHTML = ''
         var productsNames = []
         var products = []
@@ -146,7 +147,7 @@
           console.log(response)
           products = response.data
           products.forEach((i)=>{
-            productsNames.push({'name': i.name, 'price': i.priceSell})
+            productsNames.push({'name': i.name, 'price': i.priceSell, 'category': i.category})
           })
           //console.log(productsNames)
           productsNames.sort(function(a,b){
@@ -154,7 +155,7 @@
           })
           console.log(productsNames)
           productsNames.forEach((i)=>{
-            productsDiv.innerHTML+= '<div class="homepage-item">'+ i.name + ' ' + i.price +'R$ <button onclick="buyProduct(\'' + i.name + '\')" class="homepage-buy">Comprar</button> <br> </div>'
+            productsDiv.innerHTML+= '<div class="homepage-item">'+ '<h3 id="category">' + i.category + '</h3>' + ' . ' + i.name + ' ' + i.price +'R$ <button onclick="buyProduct(\'' + i.name + '\')" class="homepage-buy">Comprar</button> <br> </div>'
           })
 
         }).then((error)=>{
@@ -175,8 +176,20 @@
                 })
                 axios.put(`http://localhost:3000/products/${productId}`, productBought).then((response) => {
                   console.log(`Produto: ${productId} comprado com sucesso!`);
+                  Swal.fire({
+                    title: 'Tudo certo!',
+                    text: 'Produto comprado com sucesso!',
+                    icon: 'success',
+                    confirmButtonText: 'Ok'
+                })
                 }).catch((error) => {
                   console.log("Erro ao comprar produto")
+                  Swal.fire({
+                    title: 'Erro!',
+                    text: 'Não foi possível comprar produto',
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                  })
                 })
               } 
             })

@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
     <title>Atualização de dados</title>
 </head>
@@ -89,11 +91,23 @@
        axios.put(`http://localhost:3000/users/${email}`, data)
         .then(function (response) {
                // Manipula a resposta do servidor, se necessário
-               console.log(response);
+                console.log(response);
+                Swal.fire({
+                    title: 'Tudo certo!',
+                    text: 'Usuário atualizado com sucesso!',
+                    icon: 'success',
+                    confirmButtonText: 'Ok'
+                })
            })
         .catch(function (error) {
             // Manipula o erro, se ocorrer algum
             console.error(error);
+            Swal.fire({
+                title: 'Erro!',
+                text: 'Não foi possível atualizar o usuário',
+                icon: 'error',
+                confirmButtonText: 'Ok'
+            })
         });
     });
 </script>

@@ -11,6 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -160,9 +161,21 @@
         console.log(response);
         alert("Compra realizada com sucesso!");
         window.location.href = "../admin-products/admin-products.html";
+        Swal.fire({
+            title: 'Tudo certo!',
+            text: 'Compra realizada com sucesso!',
+            icon: 'success',
+            confirmButtonText: 'Ok'
+        })
       }).catch((error) => {
         console.log(error);
         alert("Erro ao realizar compra!");
+        Swal.fire({
+          title: 'Erro!',
+          text: 'Não foi possível efetuar a compra',
+          icon: 'error',
+          confirmButtonText: 'Ok'
+      })
       }
       );
     });
