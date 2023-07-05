@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Formulário de Compra de Produtos</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+</head>
+
+<body>
+  <div class="admin-profile-navbar">
+    <div class="profile-navbar">
+      <nav class="bg-gray-800">
+        <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+          <div class="relative flex h-16 items-center justify-between">
+            <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+              <!-- Mobile menu button-->
+              <button type="button"
+                class="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                aria-controls="mobile-menu" aria-expanded="false">
+                <span class="sr-only">Abrir menu principal</span>
+                <svg class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                  aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                </svg>
+  
+                <svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                  aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+              <div class="flex flex-shrink-0 items-center">
+                <img class="block h-8 w-auto lg:hidden" src="../assets/FW-LOGO2.png" alt="Your Company">
+                <img class="hidden h-8 w-auto lg:block" src="../assets/FW-LOGO2.png" alt="Your Company">
+              </div>
+              <div class="hidden sm:ml-6 sm:block">
+                <div class="flex space-x-4">
+                  <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+                  <a href="../admin-users/admin-users.html"
+                    class="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Gerenciar
+                    Perfis</a>
+                  <a href="../admin-products/admin-products.html"
+                    class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Gerenciar
+                    Produtos</a>
+                  <a href="../stock-control/stock-control.html"
+                    class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Controle
+                    de Estoque</a>
+                </div>
+              </div>
+            </div>
+            <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+  
+              <div class="relative ml-3">
+                <div>
+                  <button type="button"
+                    class="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                    id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+  
+                    <a href="../admin-profile/admin-profile.html"><img class="h-8 w-8 rounded-full"
+                        src="../assets/perfil.png" alt=""></a>
+                  </button>
+                </div>
+  
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Mobile menu, show/hide based on menu state. -->
+        <div class="sm:hidden" id="mobile-menu">
+          <div class="space-y-1 px-2 pb-3 pt-2">
+            <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+            <a href="../admin-users/admin-users.html"
+              class="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium"
+              aria-current="page">Gerenciar Perfis</a>
+            <a href="../admin-products/admin-products.html"
+              class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Gerenciar
+              Produtos</a>
+            <a href="../stock-control/stock-control.html"
+              class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Controle
+              de Estoque</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  <div class="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
+    <div class="relative py-3 sm:max-w-xl sm:mx-auto">
+      <div class="relative px-4 py-10 bg-white mx-8 md:mx-0 shadow rounded-3xl sm:p-10">
+        <h2 class="text-center text-3xl font-bold text-gray-900 mb-4">Compra de produto para Estoque</h2>
+
+        <form id="product-form" action = "#" method="post" class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+          <div>
+            <label for="first-name" class="block text-sm font-semibold leading-6 text-gray-900">Nome</label>
+            <div class="mt-2.5">
+              <input readonly type="text" name="firstname" id="name" autocomplete="given-name"
+                class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            </div>
+          </div>
+
+            <div>
+              <label for="phone-number" class="block text-sm font-semibold leading-6 text-gray-900">Preço de Compra</label>
+              <div class="mt-2.5">
+            
+                <input type="text" name="priceBuy" id="priceBuy" autocomplete="preçocompra"
+                  class="block w-full rounded-md border-0 px-3.5 py-2  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+              </div>
+            </div>
+          
+
+          <div class="sm:col-span-2">
+            <label for="password" class="block text-sm font-semibold leading-6 text-gray-900">Quantidade</label>
+            <div class="mt-2.5">
+              <input type="text" name="quantity" id="quantity" autocomplete="quantidade"
+                class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            </div>
+          </div>
+
+          <div class="sm:col-span-2">
+            <button type="submit"
+              class="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              Comprar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var nameStorage = localStorage.getItem('productName');
+    var nameDiv = document.getElementById('name');
+    nameDiv.value = nameStorage;
+
+    var priceBuyStorage = JSON.parse(localStorage.getItem('productPriceBuy'));
+    var priceDiv = document.getElementById('priceBuy');
+    priceDiv.value = priceBuyStorage;
+
+    form.addEventListener("submit",  (event) =>{
+      event.preventDefault();
+
+      const name = document.getElementById("name").value;
+      const priceBuy = document.getElementById("priceBuy").value;
+      const quantity = document.getElementById("quantity").value;
+
+       axios.get('http://localhost:3000/products').then((response) => {
+        products = response.data
+
+        products.forEach((i) => {
+          if (i.name == name) {
+            i.quantity += quantity
+            var productId = i.name
+            productBought = i
+            
+            axios.put(`http://localhost:3000/products/${productId}`, productBought).then((response) => {
+            console.log(response)
+          }).catch((error) => {
+            console.log(error)
+          })
+          }
+        }
+        ).catch((error) => {
+          console.log(error)
+        })
+        
+      })
+    });
+
+  </script>
+</body>
+
+</html>
