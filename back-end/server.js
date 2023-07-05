@@ -184,14 +184,23 @@ app.put('/products/buy/:id', async (req, res) => {
   try {
     const productId = req.params.id;
     const productUpdated = req.body;
+    const moneyDto = {
+      enterpriseMoney: ""
+    }
+    const querySnapshotMoney = await getDocs(collection(db, 'cash'))
+    querySnapshotMoney.forEach(async (doc) => {
+      if (doc.id === "cash-admin") {
+        moneyDto.enterpriseMoney = JSON.stringify(parseInt(doc.data().enterpriseMoney) + (parseInt(productUpdated.priceBuy) * parseInt(req.body.quantity)))
+      }
+    })
     const querySnapshot = await getDocs(collection(db, 'products'))
     querySnapshot.forEach((doc) => {
       if (doc.id === productId) {
         productUpdated.quantity = JSON.stringify(parseInt(doc.data().quantity) + parseInt(productUpdated.quantity))
-        console.log(productUpdated.quantity)
       }
     })
     await updateDoc(doc(db, 'products', productId), productUpdated);
+    await updateDoc(doc(db, 'cash', 'cash-admin'), moneyDto)
     res.json({ id: productId, ...productUpdated });
   } catch (error) {
     console.error('Erro ao atualizar produto: ', error);
