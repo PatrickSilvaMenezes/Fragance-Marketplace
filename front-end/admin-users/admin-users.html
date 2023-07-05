@@ -58,8 +58,16 @@
                             <a href="../admin-profile/admin-profile.html"><img class="h-8 w-8 rounded-full" src="../assets/perfil.png" alt=""></a>
                           </button>
                         </div>
-          
                       </div>
+                    </div>
+                    <div>
+                      <button type="button"
+                        class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md ml-5 px-3 py-2 text-sm font-medium">
+                        <a href="../login/login.html">Log-out</a>
+                      </button>
+                    </div>
+                    <div>
+                      <span id="cash-flow" class="cash-admin text-white ml-7"></span>
                     </div>
                   </div>
                 </div>
@@ -91,7 +99,12 @@
    
     var URLedit = "../user-update/user-update.html"
 
-
+    axios.get('http://localhost:3000/money').then((response) => {
+        money = response.data
+        document.getElementById('cash-flow').innerHTML = 'R$ ' + money.enterpriseMoney
+      }).catch((error) => {
+        console.log(error)
+    })  
     axios.get('http://localhost:3000/users').then((response)=>{
         console.log(response)
         users = response.data

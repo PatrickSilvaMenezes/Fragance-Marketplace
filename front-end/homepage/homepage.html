@@ -58,7 +58,14 @@
 
               </div>
             </div>
+            <div>
+              <button type="button"
+                class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md ml-5 px-3 py-2 text-sm font-medium">
+                <a href="../login/login.html">Log-out</a>
+              </button>
+            </div>
           </div>
+          
         </div>
       
         <!-- Mobile menu, show/hide based on menu state. -->
@@ -156,7 +163,6 @@
         })
       }
       function buyProduct(productId) {
-          console.log("buy")
           axios.get("http://localhost:3000/products").then((response) => {
             const product = response.data;
 
@@ -164,6 +170,10 @@
               if(i.name == productId && i.quantity > 0){
                 i.quantity -= 1;
                 productBought = i
+                axios.put("http://localhost:3000/enterprise/sell", productBought).then((response) => {
+                }).catch((error) => {
+                  console.log("Erro ao atualizar caixa")
+                })
                 axios.put(`http://localhost:3000/products/${productId}`, productBought).then((response) => {
                   console.log(`Produto: ${productId} comprado com sucesso!`);
                   Swal.fire({

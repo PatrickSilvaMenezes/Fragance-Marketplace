@@ -1,0 +1,24 @@
+   .stock-control-container {
+        font-family: Poppins, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .stock-control-table {
+        border-collapse: collapse;
+        width: 100%;
+        max-width: 600px;
+    }
+
+    .stock-control-table td,
+    .stock-control-table th {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .stock-control-table th {
+        background-color: #f2f2f2;
+    }
