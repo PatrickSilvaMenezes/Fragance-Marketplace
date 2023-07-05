@@ -55,6 +55,11 @@
                 </div>
               </div>
               <div>
+                <button type="button" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md ml-5 px-3 py-2 text-sm font-medium">
+                  <a href="../login/login.html">Log-out</a>
+                </button>
+              </div>
+              <div>
                 <span id="cash-flow" class="cash-admin text-white ml-7"></span>
               </div>
             </div>
@@ -108,12 +113,9 @@
 <script>
   axios.get('http://localhost:3000/money').then((response) => {
       money = response.data
-
-      console.log(money)
       document.getElementById('cash-flow').innerHTML = 'R$ ' + money.enterpriseMoney
-
     }).catch((error) => {
       console.log(error)
-    })
+    })  
 </script>
 </html>
