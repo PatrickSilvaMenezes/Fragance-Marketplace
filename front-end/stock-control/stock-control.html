@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./stock-control.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="../../back-end/server.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>Gerenciar Estoque</title>
 </head>
 <body>
@@ -54,6 +56,17 @@
         
                     </div>
                   </div>
+                  <div>
+                    <button type="button"
+                      class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md ml-5 px-3 py-2 text-sm font-medium">
+                      <a href="../login/login.html">Log-out</a>
+                    </button>
+                  </div>
+                  <div>
+                    <span id="cash-flow" class="cash-admin text-white ml-7"></span>
+                  </div>
+                  </div>
+
                 </div>
               </div>
             
@@ -68,7 +81,41 @@
               </div>
             </nav>
     </div>
-    
-    
+    <div class="stock-control-container">
+      <table class="stock-control-table">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Preço</th>
+            <th>Quantidade</th>
+          </tr>
+        </thead>
+        <tbody id="stock-control-products">
+        </tbody>
+      </table>
+    </div>
 </body>
+<script>
+  
+     var divProducts = document.getElementById('stock-control-products');
+
+      axios.get('http://localhost:3000/money').then((response) => {
+          money = response.data
+          document.getElementById('cash-flow').innerHTML = 'R$ ' + money.enterpriseMoney
+        }).catch((error) => {
+          console.log(error)
+        })  
+      axios.get('http://localhost:3000/products').then((response) => {
+        products = response.data;
+        products.forEach((i) => {
+          var row = document.createElement('tr');
+          row.innerHTML = '<td>' + i.name + '</td>' +
+            '<td>R$ ' + i.priceSell + ',00</td>' +
+            '<td>' + i.quantity + '</td>';
+          divProducts.appendChild(row);
+        });
+      }).catch((error) => {
+        console.log(error);
+      });
+</script>
 </html>
