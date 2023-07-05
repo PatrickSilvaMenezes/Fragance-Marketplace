@@ -49,6 +49,20 @@
     color: white;
 }
 
+.adminusers-buy{
+    margin: 20px;
+    border: 1px;
+    border-radius: 10px;
+    border-color: black;
+    border-style: solid;
+    padding: 10px;
+}
+
+.adminusers-buy:hover{
+    background-color: black;
+    color: white;
+}
+
 .adminproducts-item{
     display: flex;
     margin: 0 auto;

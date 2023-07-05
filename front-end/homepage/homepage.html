@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
     <link href="./homepage.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Página Inicial</title>
   </head>
@@ -165,8 +166,20 @@
                 productBought = i
                 axios.put(`http://localhost:3000/products/${productId}`, productBought).then((response) => {
                   console.log(`Produto: ${productId} comprado com sucesso!`);
+                  Swal.fire({
+                    title: 'Tudo certo!',
+                    text: 'Produto comprado com sucesso!',
+                    icon: 'success',
+                    confirmButtonText: 'Ok'
+                })
                 }).catch((error) => {
                   console.log("Erro ao comprar produto")
+                  Swal.fire({
+                    title: 'Erro!',
+                    text: 'Não foi possível comprar produto',
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                  })
                 })
               } 
             })

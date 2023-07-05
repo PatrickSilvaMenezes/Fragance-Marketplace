@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./product-register.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Cadastrar Produto</title>
 </head>
 <body>
@@ -192,8 +193,20 @@
 
         axios.post('http://localhost:3000/products', data).then((response)=>{
             console.log(response)
+            Swal.fire({
+              title: 'Tudo certo!',
+              text: 'Produto cadastrado com sucesso!',
+              icon: 'success',
+              confirmButtonText: 'Ok'
+          })
         }).catch((error)=>{
             console.log(error)
+            Swal.fire({
+              title: 'Erro!',
+              text: 'Não foi possível cadastrar o produto',
+              icon: 'error',
+              confirmButtonText: 'Ok'
+          })
         })
     })
 

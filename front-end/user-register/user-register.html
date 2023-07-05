@@ -7,6 +7,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../back-end/server.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
     <title>Cadastro</title>
 </head>
@@ -96,10 +98,22 @@
         .then(function (response) {
                // Manipula a resposta do servidor, se necessário
                console.log(response);
+               Swal.fire({
+                    title: 'Tudo certo!',
+                    text: 'Usuário cadastrado com sucesso!',
+                    icon: 'success',
+                    confirmButtonText: 'Ok'
+                })
            })
            .catch(function (error) {
                // Manipula o erro, se ocorrer algum
                console.error(error);
+               Swal.fire({
+                    title: 'Erro!',
+                    text: 'Não foi possível cadastrar o usuário',
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                })
            });
     });
 </script>

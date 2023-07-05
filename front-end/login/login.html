@@ -7,6 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../../back-end/server.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Login</title>
 </head>
 <body>
@@ -65,14 +66,41 @@
                 if(response.data.admin == true){
                     localStorage.setItem('nameLogin', response.data.name)
                     localStorage.setItem('email', response.data.email)
+                    Swal.fire({
+                        title: 'Tudo certo!',
+                        text: 'Login efetuado com sucesso!',
+                        icon: 'success',
+                        confirmButtonText: 'Ok'
+                    })
                     window.location.href = "../admin-profile/admin-profile.html";
+                    
                 }else if(response.data.admin == false){
                     localStorage.setItem('nameLogin', response.data.name)
                     localStorage.setItem('email', response.data.email)
+                    Swal.fire({
+                        title: 'Tudo certo!',
+                        text: 'Login efetuado com sucesso!',
+                        icon: 'success',
+                        confirmButtonText: 'Ok'
+                    })
                     window.location.href = "../homepage/homepage.html";
-                }   
+                    
+                }else{
+                    Swal.fire({
+                        title: 'Erro!',
+                        text: 'Conta não encontrada',
+                        icon: 'error',
+                        confirmButtonText: 'Ok'
+                    })
+                } 
             }).catch((error)=>{
                 console.log(error);
+                Swal.fire({
+                    title: 'Erro!',
+                    text: 'Conta não encontrada',
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                })
             })
         
         })

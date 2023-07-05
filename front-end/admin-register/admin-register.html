@@ -7,6 +7,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../back-end/server.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
     <title>Cadastro</title>
 </head>
@@ -44,7 +46,7 @@
             <label for="phone-number" class="block text-sm font-semibold leading-6 text-gray-900">Telefone</label>
             <div class="mt-2.5">
 
-                <input type="tel" name="phone-number" id="phone-number" autocomplete="tel" class="block w-full rounded-md border-0 px-3.5 py-2 pl-20 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                <input type="tel" name="phone-number" id="phone-number" autocomplete="tel" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
             </div>
             </div>
 
@@ -97,10 +99,22 @@
         .then(function (response) {
                // Manipula a resposta do servidor, se necessário
                console.log(response);
+               Swal.fire({
+                    title: 'Tudo certo!',
+                    text: 'Administrador cadastrado com sucesso!',
+                    icon: 'success',
+                    confirmButtonText: 'Ok'
+                })
            })
            .catch(function (error) {
                // Manipula o erro, se ocorrer algum
                console.error(error);
+               Swal.fire({
+                    title: 'Erro!',
+                    text: 'Não foi possível cadastrar administrador',
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+            })
            });
     });
 </script>
