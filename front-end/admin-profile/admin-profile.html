@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>Perfil</title>
 </head>
 <body>
@@ -52,6 +53,9 @@
                   </div>
     
                 </div>
+              </div>
+              <div>
+                <span id="cash-flow" class="cash-admin text-white ml-7"></span>
               </div>
             </div>
           </div>
@@ -101,4 +105,15 @@
       </section>
       
 </body>
+<script>
+  axios.get('http://localhost:3000/money').then((response) => {
+      money = response.data
+
+      console.log(money)
+      document.getElementById('cash-flow').innerHTML = 'R$ ' + money.enterpriseMoney
+
+    }).catch((error) => {
+      console.log(error)
+    })
+</script>
 </html>
