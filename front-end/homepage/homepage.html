@@ -97,7 +97,7 @@
       nomeUserDiv.innerHTML += nomeUser + ', '
 
 
-      function sortByPrice(){
+      function sortByName(){
         productsDiv.innerHTML = ''
         var productsNames = []
         var products = []
@@ -106,7 +106,7 @@
           console.log(response)
           products = response.data
           products.forEach((i)=>{
-            productsNames.push({'name': i.name, 'price': i.priceSell})
+            productsNames.push({'name': i.name, 'price': i.priceSell, 'category': i.category})
           })
           console.log(productsNames)
           productsNames.sort(function(a,b){
@@ -122,7 +122,7 @@
           })
           console.log(productsNames)
           productsNames.forEach((i)=>{
-            productsDiv.innerHTML+= '<div class="homepage-item">'+ i.name + ' ' + i.price + 'R$ <button onclick="buyProduct(\'' + i.name + '\')" class="homepage-buy">Comprar</button> <br> </div>'
+            productsDiv.innerHTML+= '<div class="homepage-item">' + '<h3 id="category">' + i.category + '</h3>'+ ' . ' + i.name + ' ' + i.price + 'R$ <button onclick="buyProduct(\'' + i.name + '\')" class="homepage-buy">Comprar</button> <br> </div>'
           })
 
         }).then((error)=>{
@@ -130,7 +130,7 @@
         })
       }
 
-      function sortByName(){
+      function sortByPrice(){
         productsDiv.innerHTML = ''
         var productsNames = []
         var products = []
@@ -139,7 +139,7 @@
           console.log(response)
           products = response.data
           products.forEach((i)=>{
-            productsNames.push({'name': i.name, 'price': i.priceSell})
+            productsNames.push({'name': i.name, 'price': i.priceSell, 'category': i.category})
           })
           //console.log(productsNames)
           productsNames.sort(function(a,b){
@@ -147,7 +147,7 @@
           })
           console.log(productsNames)
           productsNames.forEach((i)=>{
-            productsDiv.innerHTML+= '<div class="homepage-item">'+ i.name + ' ' + i.price +'R$ <button onclick="buyProduct(\'' + i.name + '\')" class="homepage-buy">Comprar</button> <br> </div>'
+            productsDiv.innerHTML+= '<div class="homepage-item">'+ '<h3 id="category">' + i.category + '</h3>' + ' . ' + i.name + ' ' + i.price +'R$ <button onclick="buyProduct(\'' + i.name + '\')" class="homepage-buy">Comprar</button> <br> </div>'
           })
 
         }).then((error)=>{
