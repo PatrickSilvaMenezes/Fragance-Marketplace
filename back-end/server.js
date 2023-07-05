@@ -190,7 +190,7 @@ app.put('/products/buy/:id', async (req, res) => {
     const querySnapshotMoney = await getDocs(collection(db, 'cash'))
     querySnapshotMoney.forEach(async (doc) => {
       if (doc.id === "cash-admin") {
-        moneyDto.enterpriseMoney = JSON.stringify(parseInt(doc.data().enterpriseMoney) + (parseInt(productUpdated.priceBuy) * parseInt(req.body.quantity)))
+        moneyDto.enterpriseMoney = JSON.stringify(parseInt(doc.data().enterpriseMoney) - (parseInt(productUpdated.priceBuy) * parseInt(req.body.quantity)))
       }
     })
     const querySnapshot = await getDocs(collection(db, 'products'))
@@ -202,6 +202,26 @@ app.put('/products/buy/:id', async (req, res) => {
     await updateDoc(doc(db, 'products', productId), productUpdated);
     await updateDoc(doc(db, 'cash', 'cash-admin'), moneyDto)
     res.json({ id: productId, ...productUpdated });
+  } catch (error) {
+    console.error('Erro ao atualizar produto: ', error);
+    res.status(500).json({ error: 'Ocorreu um erro ao atualizar produto' });
+  }
+})
+
+app.put('/enterprise/sell', async (req, res) => {
+  try {
+    const moneyDto = {
+      enterpriseMoney: ""
+    }
+    console.log(req.body)
+    const querySnapshotMoney = await getDocs(collection(db, 'cash'))
+    querySnapshotMoney.forEach(async (doc) => {
+      if (doc.id === "cash-admin") {
+        moneyDto.enterpriseMoney = JSON.stringify(parseInt(doc.data().enterpriseMoney) + (parseInt(req.body.priceSell)))
+      }
+    })
+    await updateDoc(doc(db, 'cash', 'cash-admin'), moneyDto)
+    res.json({ id: "cash-admin", ...moneyDto });
   } catch (error) {
     console.error('Erro ao atualizar produto: ', error);
     res.status(500).json({ error: 'Ocorreu um erro ao atualizar produto' });

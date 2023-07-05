@@ -90,10 +90,7 @@
     var URLEdit = '../product-update/product-update.html'
     var URLBuy = '../product-buy/product-buy.html'    
     axios.get('http://localhost:3000/products').then((response)=>{
-        console.log(response)
-        products = response.data
-        
-        console.log(products)
+        products = response.data        
         products.forEach((i)=>{
             divProducts.innerHTML += '<div class="adminproducts-item"> ' + i.name + 
             '<button class = "adminusers-edit" onClick="editProduct(\'' + i.name + '\')">Editar</button> <button class="adminusers-remove" onClick="removeProduct(\'' + i.name + '\')">Remover</button> <button class="adminusers-buy" onClick="buyProduct(\'' + i.name + '\', \'' + i.priceBuy + '\')">Comprar</button> </div> <br>';
