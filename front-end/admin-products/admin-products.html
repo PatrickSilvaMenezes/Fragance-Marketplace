@@ -58,9 +58,6 @@
       
                   </div>
                 </div>
-                <div>
-                  <span id="cash-flow" class="cash-admin text-white ml-7"></span>
-                </div>
               </div>
             </div>
           
@@ -91,12 +88,7 @@
 
     var divProducts = document.getElementById('adminproducts-itens')
     var URLEdit = '../product-update/product-update.html'
-    var URLBuy = '../product-buy/product-buy.html'
-    var cash = 1000000000
-    var cashAdmin = document.getElementById('cash-flow')
-    cashAdmin.innerHTML = 'R$ ' + cash
-
-
+    var URLBuy = '../product-buy/product-buy.html'    
     axios.get('http://localhost:3000/products').then((response)=>{
         console.log(response)
         products = response.data

@@ -208,6 +208,19 @@ app.put('/products/buy/:id', async (req, res) => {
   }
 })
 
+app.get('/money', async (req, res) => {
+  try {
+    const querySnapshot = await getDocs(collection(db, 'cash'))
+    querySnapshot.forEach((doc) => {
+      if (doc.id === "cash-admin") {
+        res.json(doc.data())
+      }
+    })
+  } catch (error) {
+    console.log(error)
+  }
+})
+
 // Rota para login
 app.post('/login', async (req, res) => {
   try {
