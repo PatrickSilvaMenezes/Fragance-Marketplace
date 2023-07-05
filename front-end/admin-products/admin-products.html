@@ -99,8 +99,8 @@
     var divProducts = document.getElementById('adminproducts-itens')
     var URLEdit = '../product-update/product-update.html'
     var URLBuy = '../product-buy/product-buy.html'  
-      axios.get('http://localhost:3000/money').then((response) => {
-          money = response.data
+    axios.get('http://localhost:3000/money').then((response) => {
+        money = response.data
         document.getElementById('cash-flow').innerHTML = 'R$ ' + money.enterpriseMoney
       }).catch((error) => {
         console.log(error)
