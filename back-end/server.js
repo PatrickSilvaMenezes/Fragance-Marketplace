@@ -180,6 +180,24 @@ app.put('/products/:id', async (req, res) => {
   }
 })
 
+app.put('/products/buy/:id', async (req, res) => {
+  try {
+    const productId = req.params.id;
+    const productUpdated = req.body;
+    const querySnapshot = await getDocs(collection(db, 'products'))
+    querySnapshot.forEach((doc) => {
+      if (doc.id === productId) {
+        productUpdated.quantity = JSON.stringify(doc.data().quantity + productUpdated.quantity)
+      }
+    })
+    await updateDoc(doc(db, 'products', productId), productUpdated);
+    res.json({ id: productId, ...productUpdated });
+  } catch (error) {
+    console.error('Erro ao atualizar produto: ', error);
+    res.status(500).json({ error: 'Ocorreu um erro ao atualizar produto' });
+  }
+})
+
 // Rota para login
 app.post('/login', async (req, res) => {
   try {

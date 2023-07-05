@@ -4,11 +4,13 @@
   <title>Formulário de Compra de Produtos</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
+  <link rel="stylesheet" href="./admin-products.css">
+  <link rel="stylesheet" href="./admin-users.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body>
@@ -141,37 +143,30 @@
     var priceDiv = document.getElementById('priceBuy');
     priceDiv.value = priceBuyStorage;
 
-    form.addEventListener("submit",  (event) =>{
+    form.addEventListener("submit", (event) => {
       event.preventDefault();
 
       const name = document.getElementById("name").value;
       const priceBuy = document.getElementById("priceBuy").value;
       const quantity = document.getElementById("quantity").value;
-
-       axios.get('http://localhost:3000/products').then((response) => {
-        products = response.data
-
-        products.forEach((i) => {
-          if (i.name == name) {
-            i.quantity += quantity
-            var productId = i.name
-            productBought = i
-            
-            axios.put(`http://localhost:3000/products/${productId}`, productBought).then((response) => {
-            console.log(response)
-          }).catch((error) => {
-            console.log(error)
-          })
-          }
-        }
-        ).catch((error) => {
-          console.log(error)
-        })
-        
-      })
+    
+      const data = {
+        name,
+        priceBuy,
+        quantity
+      }
+      axios.put(`http://localhost:3000/products/buy/${name}`, data).then((response) => {
+        console.log(response);
+        alert("Compra realizada com sucesso!");
+        window.location.href = "../admin-products/admin-products.html";
+      }).catch((error) => {
+        console.log(error);
+        alert("Erro ao realizar compra!");
+      }
+      );
     });
-
   </script>
+
 </body>
 
 </html>
