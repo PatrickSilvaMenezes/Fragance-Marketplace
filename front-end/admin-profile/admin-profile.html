@@ -91,7 +91,7 @@
             <figcaption class="mt-10">
               <img class="mx-auto h-10 w-10 rounded-full" src="../assets/perfil.png" alt="">
               <div class="mt-4 flex items-center justify-center space-x-3 text-base">
-                <div class="font-semibold text-gray-900">Nome Usuário</div>
+                <div id="userprofile-name" class="font-semibold text-gray-900"></div>
                 
               </div>
             </figcaption>
@@ -111,6 +111,11 @@
       
 </body>
 <script>
+
+  var userName = localStorage.getItem("nameLogin")
+  var divUserName = document.getElementById("userprofile-name")
+  divUserName.innerHTML += userName
+
   axios.get('http://localhost:3000/money').then((response) => {
       money = response.data
       document.getElementById('cash-flow').innerHTML = 'R$ ' + money.enterpriseMoney
